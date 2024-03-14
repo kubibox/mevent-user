@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Auth\Domain;
 
+use App\Auth\Domain\Register\RegisterEmail;
 use App\Shared\Domain\Aggregate\AggregateRoot;
 
 class AuthUser extends AggregateRoot
@@ -23,11 +24,11 @@ class AuthUser extends AggregateRoot
     }
 
     /**
-     * @param AuthEmail $email
+     * @param AuthEmail|RegisterEmail $email
      *
      * @return bool
      */
-    public function matchEmail(AuthEmail $email): bool
+    public function matchEmail(AuthEmail|RegisterEmail $email): bool
     {
         return $this->email->isSame($email);
     }
@@ -40,6 +41,14 @@ class AuthUser extends AggregateRoot
     public function matchPassword(AuthPassword $password): bool
     {
         return $this->password->isSame($password);
+    }
+
+    /**
+     * @return AuthEmail
+     */
+    public function email(): AuthEmail
+    {
+        return $this->email;
     }
 
     /**

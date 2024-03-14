@@ -67,9 +67,9 @@ abstract class Action
     abstract protected function action(): Response;
 
     /**
-     * @return array|object
+     * @return array|object|null
      */
-    protected function getFormData()
+    protected function getFormData(): array|object|null
     {
         return $this->request->getParsedBody();
     }

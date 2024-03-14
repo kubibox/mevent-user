@@ -1,20 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Auth\Application\Register;
 
-final class RegisterUserCommand
+final readonly class RegisterUserCommand
 {
+    /**
+     * @param string $email
+     * @param string $password
+     */
     public function __construct(
-        private readonly string $email,
-        private readonly string $password
+        private string $email,
+        private string $password
     ){
     }
 
+    /**
+     * @return string
+     */
     public function email(): string
     {
         return $this->email;
     }
 
+    /**
+     * @return string
+     */
     public function password(): string
     {
         return $this->password;

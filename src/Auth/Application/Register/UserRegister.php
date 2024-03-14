@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Auth\Application\Register;
 
 use App\Auth\Domain\Register\RegisteredUser;
@@ -9,12 +11,21 @@ use App\Auth\Domain\Register\RegisterRepository;
 use App\Auth\Domain\Register\RegisterUser;
 use InvalidArgumentException;
 
-class UserRegister
+readonly class UserRegister
 {
-    public function __construct(private readonly RegisterRepository $repository)
+    /**
+     * @param RegisterRepository $repository
+     */
+    public function __construct(private RegisterRepository $repository)
     {
     }
 
+    /**
+     * @param RegisterEmail $email
+     * @param RegisterPassword $password
+     *
+     * @return RegisteredUser
+     */
     public function register(RegisterEmail $email, RegisterPassword $password): RegisteredUser
     {
         $this->ensureCredentialsAreValid(
@@ -28,6 +39,11 @@ class UserRegister
         return $user;
     }
 
+    /**
+     * @param RegisteredUser $user
+     *
+     * @return void
+     */
     private function makeSession(RegisteredUser $user): void
     {
         $_SESSION['USER_ID'] = $user->id(); //todo use GLOBAL METHOD

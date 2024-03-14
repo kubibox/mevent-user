@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Auth\Infrastructure\Persistence;
 
+use App\Auth\Domain\AuthEmail;
 use App\Auth\Domain\AuthId;
 use App\Auth\Domain\AuthPassword;
 use App\Auth\Domain\AuthUser;
@@ -42,6 +43,7 @@ class DoctrineRegisterRepository extends DoctrineRepository implements RegisterR
             new AuthUsername($user->email()->value()),
             new AuthPassword($user->password()->value()),
             new AuthId(0),
+            new AuthEmail($user->email()->value())
         );
 
         $this->persist($auth);
