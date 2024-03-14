@@ -12,10 +12,6 @@ RUN apt-get update && \
 
 WORKDIR /var/www
 
-# Test
-RUN pecl install sqlsrv pdo_sqlsrv
-RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-
 # End test
 ARG XDEBUG_MODES="debug"
 ARG REMOTE_HOST="host.docker.internal"

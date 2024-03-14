@@ -1,34 +1,31 @@
 version: '3.8'
 
 services:
-    hateme_nginx:
+    mevent-auth-nginx:
         image: nginx:1.19-alpine
-        container_name: hateme_nginx
+        container_name: mevent-auth-nginx
         restart: always
         ports:
             - "8000:80"
         volumes:
             - ./:/var/www
             - ./etc/nginx/conf.d:/etc/nginx/conf.d
-    hateme_mysql:
-        container_name: hateme_mysql
-        image: mysql:latest
-        ports:
-            - "9906:3306"
+    mevent-auth-postgres:
+        container_name: mevent-auth-postgres
+        image: postgres:latest
+        restart: always
+        env_file:
+            - .env
         environment:
-            MYSQL_ROOT_PASSWORD: 'root'
-            MYSQL_PASSWORD: 'root'
-            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-            MYSQL_DATABASE: 'hateme'
-        healthcheck:
-            test: ["CMD", "mysqladmin", "--user=root", "--password=", "--host=localhost", "ping", "-s"]
-            interval: 2s
-            timeout: 10s
-            retries: 10
-        expose:
-            - '3360'
-    app:
-        container_name: hateme_php
+            - POSTGRES_DB=${DB_DATABASE}
+            - POSTGRES_USER=${DB_USERNAME}
+            - POSTGRES_PASSWORD=${DB_PASSWORD}
+        ports:
+            - "5432:5432"
+        volumes:
+            - ./.docker/conf/postgres/:/docker-entrypoint-initdb.d/
+    mevent-auth-php:
+        container_name: mevent-auth-php
         build:
             context: ./
             dockerfile: Dockerfile
@@ -40,8 +37,4 @@ services:
         extra_hosts:
             - "host.docker.internal:host-gateway"
         depends_on:
-            - hateme_mysql
-
-networks:
-    backend:
-        driver: 'bridge'
+            - mevent-auth-postgres

@@ -1,6 +1,7 @@
 .idea/
 .github/
 .vscode/
+.docker/
 /coverage/
 /vendor/
 /logs/*
