@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+    hateme_nginx:
+        image: nginx:1.19-alpine
+        container_name: hateme_nginx
+        restart: always
+        ports:
+            - "8000:80"
+        volumes:
+            - ./:/var/www
+            - ./etc/nginx/conf.d:/etc/nginx/conf.d
+    hateme_mysql:
+        container_name: hateme_mysql
+        image: mysql:latest
+        ports:
+            - "9906:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: 'root'
+            MYSQL_PASSWORD: 'root'
+            MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+            MYSQL_DATABASE: 'hateme'
+        healthcheck:
+            test: ["CMD", "mysqladmin", "--user=root", "--password=", "--host=localhost", "ping", "-s"]
+            interval: 2s
+            timeout: 10s
+            retries: 10
+        expose:
+            - '3360'
+    app:
+        container_name: hateme_php
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        restart: unless-stopped
+        volumes:
+            - ./:/var/www
+            - ./etc/php/php.ini:/usr/local/etc/php/php.ini
+            - /tmp/xdebug:/tmp/xdebug
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+        depends_on:
+            - hateme_mysql
+
+networks:
+    backend:
+        driver: 'bridge'
