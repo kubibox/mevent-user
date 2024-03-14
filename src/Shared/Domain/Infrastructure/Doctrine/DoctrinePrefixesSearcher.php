@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Shared\Domain\Infrastructure\Doctrine;
+namespace App\Shared\Domain\Infrastructure\Doctrine;
 
 final class DoctrinePrefixesSearcher
 {
-    private const MAPPINGS_PATH = 'Infrastructure/Persistence/Doctrine';
+    private const string MAPPINGS_PATH = 'Infrastructure/Persistence/Doctrine';
 
     /**
      * @param string $path

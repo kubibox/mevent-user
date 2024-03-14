@@ -13,7 +13,11 @@ return function (App $app) {
         return $response;
     });
 
-    $app->group('/api/v1', static function (Group $group) {
-        $group->post('/email-confirm');
+    $app->get('/info', function () {
+        phpinfo();
+        exit;
+    });
+    $app->group('/api/v1', function (Group $group) {
+        $group->post('/email-confirm', \App\Auth\Actions\ConfirmationEmailAction::class);
     });
 };

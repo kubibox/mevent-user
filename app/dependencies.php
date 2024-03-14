@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Auth\Domain\AuthRepository;
-use App\Auth\Domain\Register\RegisterRepository;
-use App\Auth\Infrastructure\Persistence\DoctrineRegisterRepository;
+use App\Shared\Domain\Infrastructure\Doctrine\DoctrinePrefixesSearcher;
 use App\Shared\Settings\SettingsInterface;
 use App\Shared\Infrastructure\Persistence\Doctrine\DoctrineEntityManagerFactory;
 use DI\ContainerBuilder;
@@ -20,7 +18,7 @@ use Symfony\Component\Mailer\Mailer;
 
 return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
-        LoggerInterface::class => static function (ContainerInterface $c): LoggerInterface {
+        LoggerInterface::class => function (ContainerInterface $c): LoggerInterface {
             $settings = $c->get(SettingsInterface::class);
 
             $loggerSettings = $settings->get('logger');
@@ -34,16 +32,12 @@ return function (ContainerBuilder $containerBuilder) {
 
             return $logger;
         },
-        EntityManager::class => static function (ContainerInterface $c): EntityManager {
+        EntityManager::class => function (ContainerInterface $c): EntityManager {
             $prefixes = [
-//                DoctrinePrefixesSearcher::inPath('../src/Categories', 'App\\Categories'),
-//                DoctrinePrefixesSearcher::inPath('../src/Transactions', 'App\\Transactions'),
-//                DoctrinePrefixesSearcher::inPath('../src/Auth', 'App\\Auth'),
+                DoctrinePrefixesSearcher::inPath('../src/Auth', 'App\\Auth'),
             ];
 
-            //var_dump($prefixes);exit;
             $settings = $c->get(SettingsInterface::class);
-
 
             $dbSettings = $settings->get('db');
 
@@ -58,9 +52,6 @@ return function (ContainerBuilder $containerBuilder) {
             $transport = Transport::fromDsn($settings->get('email')['dsn']);
 
             return new Mailer($transport);
-        },
-        RegisterRepository::class => static function (): RegisterRepository {
-            $repository = new DoctrineRegisterRepository();
         },
     ]);
 };
