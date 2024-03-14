@@ -32,4 +32,14 @@ final class RegisterUser
     {
         return date('Y-m-d H:i:s'); // todo use const for this format
     }
+
+    /**
+     * @param RegisterEmail $email
+     *
+     * @return bool
+     */
+    public function matchEmail(RegisterEmail $email): bool
+    {
+        return $this->email->isSame($email);
+    }
 }

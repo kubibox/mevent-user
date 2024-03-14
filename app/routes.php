@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Register\Actions\ConfirmationEmailAction;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
@@ -13,11 +14,8 @@ return function (App $app) {
         return $response;
     });
 
-    $app->get('/info', function () {
-        phpinfo();
-        exit;
-    });
+
     $app->group('/api/v1', function (Group $group) {
-        $group->post('/email-confirm', \App\Register\Actions\ConfirmationEmailAction::class);
+        $group->post('/email-confirm', ConfirmationEmailAction::class);
     });
 };

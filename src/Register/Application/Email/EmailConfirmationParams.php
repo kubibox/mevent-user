@@ -30,8 +30,10 @@ readonly class EmailConfirmationParams
     {
         $email = $data['email'] ?? '';
 
-        if (!$email || filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new \InvalidArgumentException('Got invalid data');
         }
+
+        return new EmailConfirmationParams($email);
     }
 }

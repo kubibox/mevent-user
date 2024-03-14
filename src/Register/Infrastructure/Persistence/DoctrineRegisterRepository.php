@@ -23,11 +23,13 @@ class DoctrineRegisterRepository extends DoctrineRepository implements RegisterR
     /**
      * @param RegisterEmail $email
      *
-     * @return RegisteredUser
+     * @return RegisteredUser|null
      */
-    public function searchByEmail(RegisterEmail $email): RegisteredUser
+    public function searchByEmail(RegisterEmail $email): ?RegisteredUser
     {
-        // TODO: Implement searchByEmail() method.
+        return $this->repository(RegisteredUser::class)->findOneBy([
+            'email' => $email->value(),
+        ]);
     }
 
     /**

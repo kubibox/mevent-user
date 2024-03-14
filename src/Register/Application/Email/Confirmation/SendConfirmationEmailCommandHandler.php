@@ -7,6 +7,7 @@ namespace App\Register\Application\Email\Confirmation;
 use App\Auth\Domain\AuthEmail;
 use App\Auth\Domain\InvalidPasswordException;
 use App\Register\Application\Email\EmailConfirmation;
+use App\Register\Domain\RegisterEmail;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 readonly class SendConfirmationEmailCommandHandler
@@ -27,6 +28,6 @@ readonly class SendConfirmationEmailCommandHandler
      */
     public function __invoke(SendConfirmationEmailCommand $command): void
     {
-        $this->confirmation->confirm(new AuthEmail($command->email()));
+        $this->confirmation->confirm(new RegisterEmail($command->email()));
     }
 }

@@ -20,9 +20,10 @@ class RegisterAction extends Action
      * @param LoggerInterface $logger
      * @param RegisterRepository $registerRepository
      */
-    public function __construct(LoggerInterface $logger, private readonly RegisterRepository $registerRepository)
-    {
-        parent::__construct($logger);
+    public function __construct(
+        private readonly LoggerInterface $logger,
+        private readonly RegisterRepository $registerRepository
+    ){
     }
 
     /**
@@ -30,6 +31,7 @@ class RegisterAction extends Action
      */
     protected function action(): Response
     {
+        $this->logger->info('Register a new user');
         //todo add verification for data
 
         $params = AuthParams::createFromArray($this->getFormData());

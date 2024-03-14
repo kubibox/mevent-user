@@ -4,22 +4,15 @@ declare(strict_types=1);
 
 namespace App\Shared\Actions;
 
-use App\Application\Actions\ActionPayload;
 use App\Shared\Domain\DomainException\DomainRecordNotFoundException;
 use Exception;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Log\LoggerInterface;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Exception\HttpNotFoundException;
 
 abstract class Action
 {
-    /**
-     * @var LoggerInterface
-     */
-    protected LoggerInterface $logger;
-
     /**
      * @var Request
      */
@@ -34,14 +27,6 @@ abstract class Action
      * @var array
      */
     protected array $args;
-
-    /**
-     * @param LoggerInterface $logger
-     */
-    public function __construct(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-    }
 
     /**
      * @throws HttpNotFoundException
@@ -97,6 +82,19 @@ abstract class Action
         return $this->respond($payload);
     }
 
+    /**
+     * @param array $data
+     * @param int $status
+     *
+     * @return Response
+     */
+    protected function error(array $data, int $status = 500): Response
+    {
+        return $this->respondWithData([
+            'status' => 'error',
+            'error' => $data
+        ], $status);
+    }
     /**
      * @return Response
      */

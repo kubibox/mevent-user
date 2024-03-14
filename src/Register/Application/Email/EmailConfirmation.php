@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Register\Application\Email;
 
-use App\Auth\Domain\AuthEmail;
-use App\Auth\Domain\AuthRepository;
-use App\Auth\Domain\AuthUser;
-use App\Auth\Domain\InvalidPasswordException;
+use App\Register\Domain\RegisteredUser;
+use App\Register\Domain\RegisterEmail;
+use App\Register\Domain\RegisterRepository;
 use App\Register\Handler\Exception\InvalidEmailException;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
@@ -16,37 +15,40 @@ use Symfony\Component\Mime\Email;
 readonly class EmailConfirmation
 {
     /**
-     * @param AuthRepository $repository
+     * @param RegisterRepository $repository
      * @param MailerInterface $mailer
      */
     public function __construct(
-        private AuthRepository  $repository,
+        private RegisterRepository  $repository,
         private MailerInterface $mailer
     ) {
     }
 
     /**
-     * @param AuthEmail $email
+     * @param RegisterEmail $email
      *
      * @return void
-     * @throws InvalidPasswordException|TransportExceptionInterface
+     * @throws InvalidEmailException
+     * @throws TransportExceptionInterface
      */
-    public function confirm(AuthEmail $email): void
+    public function confirm(RegisterEmail $email): void
     {
-        $user = $this->repository->searchEmail($email);
+        $user = $this->repository->searchByEmail($email);
 
-        $this->ensureCredentialsAreValid($user, $email);
+        if ($user) {
+            $this->ensureCredentialsAreValid($user, $email);
+        }
 
         $this->send($email);
     }
 
     /**
-     * @param AuthEmail $email
+     * @param RegisterEmail $email
      *
      * @return void
      * @throws TransportExceptionInterface
      */
-    private function send(AuthEmail $email): void
+    private function send(RegisterEmail $email): void
     {
         $email = (new Email())
             ->from('mevent@auth.com')
@@ -58,13 +60,13 @@ readonly class EmailConfirmation
     }
 
     /**
-     * @param AuthUser $user
-     * @param AuthEmail $email
+     * @param RegisteredUser $user
+     * @param RegisterEmail $email
+     * @throws InvalidEmailException
      *
      * @return void
-     * @throws InvalidPasswordException
      */
-    private function ensureCredentialsAreValid(AuthUser $user, AuthEmail $email): void
+    private function ensureCredentialsAreValid(RegisteredUser $user, RegisterEmail $email): void
     {
         if (!$user->matchEmail($email)) {
             throw new InvalidEmailException($user);

@@ -1,27 +1,43 @@
 <?php
 
+declare(strict_types=1);
 namespace App\Register\Domain;
 
 final class RegisteredUser
 {
+    /**
+     * @param RegisterId $id
+     * @param RegisterEmail $email
+     */
     public function __construct(
-        private readonly ?int $id,
-        private readonly ?string $email,
+        private readonly RegisterId $id,
+        private readonly RegisterEmail $email,
     ) {
     }
 
-    public function id(): ?int
+    /**
+     * @return RegisterId
+     */
+    public function id(): RegisterId
     {
         return $this->id;
     }
 
-    public function email(): ?string
+    /**
+     * @param RegisterEmail $email
+     *
+     * @return bool
+     */
+    public function matchEmail(RegisterEmail $email): bool
     {
-        return $this->email;
+        return $this->email->isSame($email);
     }
 
-    public function isUnique(): bool
+    /**
+     * @return RegisterEmail
+     */
+    public function email(): RegisterEmail
     {
-        return !$this->email && !$this->id;
+        return $this->email;
     }
 }

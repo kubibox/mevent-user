@@ -13,14 +13,23 @@ use App\Auth\Domain\InvalidPasswordException;
 use App\Auth\Domain\InvalidUsernameException;
 use App\Shared\Actions\Action;
 use Exception;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
 
 final class AuthAction extends Action
 {
-    public function __construct(LoggerInterface $logger, private readonly AuthRepository $authRepository)
+    /**
+     * @param LoggerInterface $logger
+     * @param ContainerInterface $container
+     * @param AuthRepository $authRepository
+     */
+    public function __construct(
+        protected readonly LoggerInterface $logger,
+        protected readonly ContainerInterface $container,
+        private readonly AuthRepository $authRepository
+    )
     {
-        parent::__construct($logger);
     }
 
     protected function action(): Response
