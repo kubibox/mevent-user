@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-use App\Application\Shared\Domain\Infrastructure\Doctrine\DoctrinePrefixesSearcher;
-use App\Shared\Application\Settings\SettingsInterface;
+use App\Auth\Domain\AuthRepository;
+use App\Auth\Domain\Register\RegisterRepository;
+use App\Auth\Infrastructure\Persistence\DoctrineRegisterRepository;
+use App\Shared\Settings\SettingsInterface;
 use App\Shared\Infrastructure\Persistence\Doctrine\DoctrineEntityManagerFactory;
 use DI\ContainerBuilder;
 use Doctrine\ORM\EntityManager;
@@ -12,10 +14,13 @@ use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mailer\Mailer;
 
 return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
-        LoggerInterface::class => function (ContainerInterface $c) {
+        LoggerInterface::class => static function (ContainerInterface $c): LoggerInterface {
             $settings = $c->get(SettingsInterface::class);
 
             $loggerSettings = $settings->get('logger');
@@ -29,7 +34,7 @@ return function (ContainerBuilder $containerBuilder) {
 
             return $logger;
         },
-        EntityManager::class => function (ContainerInterface $c) {
+        EntityManager::class => static function (ContainerInterface $c): EntityManager {
             $prefixes = [
 //                DoctrinePrefixesSearcher::inPath('../src/Categories', 'App\\Categories'),
 //                DoctrinePrefixesSearcher::inPath('../src/Transactions', 'App\\Transactions'),
@@ -46,6 +51,16 @@ return function (ContainerBuilder $containerBuilder) {
                 $dbSettings,
                 $prefixes
             );
+        },
+        MailerInterface::class => static function (ContainerInterface $c): MailerInterface {
+            $settings = $c->get(SettingsInterface::class);
+
+            $transport = Transport::fromDsn($settings->get('email')['dsn']);
+
+            return new Mailer($transport);
+        },
+        RegisterRepository::class => static function (): RegisterRepository {
+            $repository = new DoctrineRegisterRepository();
         },
     ]);
 };

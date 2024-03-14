@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Shared\Application\Settings\SettingsInterface;
+use App\Shared\Settings\SettingsInterface;
 use App\Shared\Infrastructure\Persistence\Doctrine\DoctrineEntityManagerFactory;
 use Psr\Container\ContainerInterface;
 

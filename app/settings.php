@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-use App\Shared\Application\Settings\Settings;
-use App\Shared\Application\Settings\SettingsInterface;
+use App\Shared\Settings\Settings;
+use App\Shared\Settings\SettingsInterface;
 use DI\ContainerBuilder;
 use Monolog\Logger;
 
 return static function (ContainerBuilder $containerBuilder) {
-
     // Global Settings Object
     $containerBuilder->addDefinitions([
         SettingsInterface::class => function () {
@@ -21,7 +20,7 @@ return static function (ContainerBuilder $containerBuilder) {
                     'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log',
                     'level' => Logger::DEBUG,
                 ],
-                'dev' => $_ENV['PROD'] ? !$_ENV['PROD'] : true,
+                'dev' => !($_ENV['PROD'] ?? false),
                 'db' => [
                     'driver' => $_ENV['DB_DRIVER'],
                     'host' => $_ENV['DB_HOST'],
@@ -31,7 +30,11 @@ return static function (ContainerBuilder $containerBuilder) {
                     'charset' => $_ENV['DB_CHARSET'],
                     'collation' => $_ENV['DB_COLLATION'],
                     'prefix' => $_ENV['DB_PREFIX'],
-                ]
+                ],
+                'email' => [
+                    'dsn' => $_ENV['MAILER_DSN'],
+                    'encryption' => $_ENV['MAIL_ENCRYPTION']
+                ],
             ]);
         },
     ]);

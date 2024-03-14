@@ -10,20 +10,6 @@ services:
         volumes:
             - ./:/var/www
             - ./etc/nginx/conf.d:/etc/nginx/conf.d
-    mevent-auth-postgres:
-        container_name: mevent-auth-postgres
-        image: postgres:latest
-        restart: always
-        env_file:
-            - .env
-        environment:
-            - POSTGRES_DB=${DB_DATABASE}
-            - POSTGRES_USER=${DB_USERNAME}
-            - POSTGRES_PASSWORD=${DB_PASSWORD}
-        ports:
-            - "5432:5432"
-        volumes:
-            - ./.docker/conf/postgres/:/docker-entrypoint-initdb.d/
     mevent-auth-php:
         container_name: mevent-auth-php
         build:
@@ -36,5 +22,3 @@ services:
             - /tmp/xdebug:/tmp/xdebug
         extra_hosts:
             - "host.docker.internal:host-gateway"
-        depends_on:
-            - mevent-auth-postgres
