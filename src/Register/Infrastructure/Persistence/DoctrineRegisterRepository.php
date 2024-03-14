@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Infrastructure\Persistence;
+namespace App\Register\Infrastructure\Persistence;
 
 use App\Auth\Domain\AuthEmail;
 use App\Auth\Domain\AuthId;
 use App\Auth\Domain\AuthPassword;
 use App\Auth\Domain\AuthUser;
 use App\Auth\Domain\AuthUsername;
-use App\Auth\Domain\Register\RegisteredUser;
-use App\Auth\Domain\Register\RegisterEmail;
-use App\Auth\Domain\Register\RegisterRepository;
-use App\Auth\Domain\Register\RegisterUser;
+use App\Register\Domain\RegisteredUser;
+use App\Register\Domain\RegisterEmail;
+use App\Register\Domain\RegisterRepository;
+use App\Register\Domain\RegisterUser;
 use App\Shared\Infrastructure\Persistence\Doctrine\DoctrineRepository;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;

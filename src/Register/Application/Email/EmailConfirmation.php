@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Application\Email;
+namespace App\Register\Application\Email;
 
 use App\Auth\Domain\AuthEmail;
 use App\Auth\Domain\AuthRepository;
 use App\Auth\Domain\AuthUser;
 use App\Auth\Domain\InvalidPasswordException;
-use App\Auth\Handler\Exception\InvalidEmailException;
+use App\Register\Handler\Exception\InvalidEmailException;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;

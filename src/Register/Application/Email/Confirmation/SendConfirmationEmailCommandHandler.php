@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Application\Email\Confirmation;
+namespace App\Register\Application\Email\Confirmation;
 
-use App\Auth\Application\Email\EmailConfirmation;
 use App\Auth\Domain\AuthEmail;
 use App\Auth\Domain\InvalidPasswordException;
+use App\Register\Application\Email\EmailConfirmation;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 readonly class SendConfirmationEmailCommandHandler

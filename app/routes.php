@@ -18,6 +18,6 @@ return function (App $app) {
         exit;
     });
     $app->group('/api/v1', function (Group $group) {
-        $group->post('/email-confirm', \App\Auth\Actions\ConfirmationEmailAction::class);
+        $group->post('/email-confirm', \App\Register\Actions\ConfirmationEmailAction::class);
     });
 };

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Actions;
+namespace App\Register\Actions;
 
 use App\Auth\Application\AuthParams;
-use App\Auth\Application\Register\RegisterUserCommand;
-use App\Auth\Application\Register\RegisterUserCommandHandler;
-use App\Auth\Application\Register\UserRegister;
-use App\Auth\Domain\Register\RegisterRepository;
+use App\Register\Application\Register\RegisterUserCommand;
+use App\Register\Application\Register\RegisterUserCommandHandler;
+use App\Register\Application\Register\UserRegister;
+use App\Register\Domain\RegisterRepository;
 use App\Shared\Actions\Action;
 use Exception;
 use Psr\Http\Message\ResponseInterface as Response;

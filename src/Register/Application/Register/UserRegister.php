@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Application\Register;
+namespace App\Register\Application\Register;
 
-use App\Auth\Domain\Register\RegisteredUser;
-use App\Auth\Domain\Register\RegisterEmail;
-use App\Auth\Domain\Register\RegisterPassword;
-use App\Auth\Domain\Register\RegisterRepository;
-use App\Auth\Domain\Register\RegisterUser;
+use App\Register\Domain\RegisteredUser;
+use App\Register\Domain\RegisterEmail;
+use App\Register\Domain\RegisterPassword;
+use App\Register\Domain\RegisterRepository;
+use App\Register\Domain\RegisterUser;
 use InvalidArgumentException;
 
 readonly class UserRegister

@@ -35,6 +35,7 @@ return function (ContainerBuilder $containerBuilder) {
         EntityManager::class => function (ContainerInterface $c): EntityManager {
             $prefixes = [
                 DoctrinePrefixesSearcher::inPath('../src/Auth', 'App\\Auth'),
+                DoctrinePrefixesSearcher::inPath('../src/Register', 'App\\Register'),
             ];
 
             $settings = $c->get(SettingsInterface::class);

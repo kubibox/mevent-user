@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Auth\Domain;
 
-use App\Auth\Domain\Register\RegisterEmail;
+use App\Register\Domain\RegisterEmail;
 use App\Shared\Domain\Aggregate\AggregateRoot;
 
 class AuthUser extends AggregateRoot

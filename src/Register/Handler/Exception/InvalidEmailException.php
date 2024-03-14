@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Handler\Exception;
+namespace App\Register\Handler\Exception;
 
 use App\Auth\Domain\AuthUser;
 

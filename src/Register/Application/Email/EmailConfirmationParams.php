@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Application\Email;
+namespace App\Register\Application\Email;
 
 readonly class EmailConfirmationParams
 {

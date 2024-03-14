@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Auth\Domain\Register;
+namespace App\Register\Domain;
 
 interface RegisterRepository
 {

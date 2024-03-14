@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Actions;
+namespace App\Register\Actions;
 
-use App\Auth\Application\Email\Confirmation\SendConfirmationEmailCommandHandler;
-use App\Auth\Application\Email\EmailConfirmationParams;
-use App\Auth\Application\Register\RegisterUserCommandHandler;
 use App\Auth\Domain\AuthRepository;
-use Psr\Log\LoggerInterface;
-use Psr\Http\Message\ResponseInterface as Response;
+use App\Register\Application\Email\Confirmation\SendConfirmationEmailCommandHandler;
+use App\Register\Application\Email\EmailConfirmationParams;
 use App\Shared\Actions\Action;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Log\LoggerInterface;
 
 class ConfirmationEmailAction extends Action
 {

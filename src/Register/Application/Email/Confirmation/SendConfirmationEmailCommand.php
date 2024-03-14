@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Application\Email\Confirmation;
+namespace App\Register\Application\Email\Confirmation;
 
 readonly class SendConfirmationEmailCommand
 {
