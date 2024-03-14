@@ -8,7 +8,11 @@ RUN apt-get update && \
         unzip \
         git \
         default-mysql-client && \
-    docker-php-ext-install pdo_mysql intl zip
+    docker-php-ext-install intl zip
+
+RUN apt-get update && \
+    apt-get install -y libpq-dev && \
+    docker-php-ext-install pdo pdo_pgsql pgsql
 
 WORKDIR /var/www
 
