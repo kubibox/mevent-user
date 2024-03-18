@@ -14,7 +14,6 @@ use App\Shared\Actions\Action;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
-use Slim\Factory\AppFactory;
 use Symfony\Component\Mailer\MailerInterface;
 
 class ConfirmationEmailAction extends Action
@@ -28,7 +27,7 @@ class ConfirmationEmailAction extends Action
         private readonly LoggerInterface $logger,
         private readonly ContainerInterface $container,
         private readonly RegisterRepository $repository,
-    ){
+    ) {
     }
 
     /**

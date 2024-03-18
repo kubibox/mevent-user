@@ -28,8 +28,7 @@ final class AuthAction extends Action
         protected readonly LoggerInterface $logger,
         protected readonly ContainerInterface $container,
         private readonly AuthRepository $authRepository
-    )
-    {
+    ) {
     }
 
     protected function action(): Response

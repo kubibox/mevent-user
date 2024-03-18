@@ -33,6 +33,7 @@
         "guzzlehttp/guzzle": "^7.8",
         "illuminate/database": "^8.83",
         "illuminate/events": "^8.83",
+        "lcobucci/jwt": "^5.2",
         "monolog/monolog": "^2.8",
         "php-di/php-di": "^6.4",
         "pimple/pimple": "^3.5",

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Register\Actions\ConfirmationEmailAction;
+use App\Token\Actions\AuthTokenGenerateAction;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
@@ -17,5 +18,6 @@ return function (App $app) {
 
     $app->group('/api/v1', function (Group $group) {
         $group->post('/email-confirm', ConfirmationEmailAction::class);
+        $group->post('/token/generate', AuthTokenGenerateAction::class);
     });
 };

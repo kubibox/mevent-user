@@ -35,6 +35,12 @@ return static function (ContainerBuilder $containerBuilder) {
                     'dsn' => $_ENV['MAILER_DSN'],
                     'encryption' => $_ENV['MAIL_ENCRYPTION']
                 ],
+                'root_path' => dirname(__DIR__),
+                'rsa' => [
+                    'private' => 'rsa-private-key.pem',
+                    'public' => 'rsa-public-key.pem'
+                ],
+                'app_name' => $_ENV['APP_NAME']
             ]);
         },
     ]);
