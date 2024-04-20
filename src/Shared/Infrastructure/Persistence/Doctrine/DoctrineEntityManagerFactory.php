@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Shared\Infrastructure\Persistence\Doctrine;
 
-
-use App\Application\Settings\SettingsInterface;
+use App\Shared\Settings\SettingsInterface;
 use App\Shared\Infrastructure\Persistence\Doctrine\Dbal\DbalCustomTypesRegistrar;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\MySQLSchemaManager;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
@@ -60,7 +60,9 @@ final class DoctrineEntityManagerFactory
             'prefix' => $settings['prefix']
         ], $config);
 
-        return EntityManager::create($connection, self::createConfiguration($contextPrefixes, true));//todo use const
+        return EntityManager::create($connection,
+            self::createConfiguration($contextPrefixes, true)
+        );//todo use const
     }
 
     /**
