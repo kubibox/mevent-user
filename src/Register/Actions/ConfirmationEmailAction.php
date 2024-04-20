@@ -9,11 +9,17 @@ use App\Register\Application\Email\Confirmation\SendConfirmationEmailCommand;
 use App\Register\Application\Email\Confirmation\SendConfirmationEmailCommandHandler;
 use App\Register\Application\Email\EmailConfirmation;
 use App\Register\Application\Email\EmailConfirmationParams;
+use App\Register\Application\JWTTokenService;
 use App\Register\Domain\RegisterRepository;
+use App\Register\Handler\Exception\EmailAlreadyExistedException;
+use App\Register\Handler\Exception\InvalidEmailException;
 use App\Shared\Actions\Action;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 
 class ConfirmationEmailAction extends Action
@@ -32,10 +38,9 @@ class ConfirmationEmailAction extends Action
 
     /**
      * @return Response
-     * @throws \App\Auth\Domain\InvalidPasswordException
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws TransportExceptionInterface
      */
     protected function action(): Response
     {
@@ -56,11 +61,22 @@ class ConfirmationEmailAction extends Action
         $handler = new SendConfirmationEmailCommandHandler(
             new EmailConfirmation(
                 $this->repository,
-                $this->container->get(MailerInterface::class)
+                $this->container->get(MailerInterface::class),
+                $this->container->get(JWTTokenService::class)
             ),
         );
 
-        $handler(new SendConfirmationEmailCommand($params->email()));
+        try {
+            $handler(new SendConfirmationEmailCommand($params->email()));
+        } catch (EmailAlreadyExistedException $exception) {
+            return $this->error([
+                $exception->getMessage()
+            ], 409);
+        } catch (InvalidEmailException $exception) {
+            return $this->error([
+                'Sorry, some invalid data'
+            ], 400);
+        }
 
         return $this->success();
     }

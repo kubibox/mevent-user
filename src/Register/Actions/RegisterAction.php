@@ -14,7 +14,7 @@ use Exception;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
 
-class RegisterAction extends Action
+final class RegisterAction extends Action
 {
     /**
      * @param LoggerInterface $logger
@@ -23,7 +23,7 @@ class RegisterAction extends Action
     public function __construct(
         private readonly LoggerInterface $logger,
         private readonly RegisterRepository $registerRepository
-    ){
+    ) {
     }
 
     /**

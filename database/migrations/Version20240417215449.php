@@ -55,6 +55,12 @@ CREATE TABLE domain_events (
                                PRIMARY KEY (id)
 );
 
+CREATE TABLE temporary_access_tokens (
+    id SERIAL PRIMARY KEY,            -- SERIAL - це тип даних, що автоматично збільшує значення
+    email VARCHAR(255) NOT NULL,         -- INTEGER замість INT
+    token VARCHAR(255) NOT NULL,
+    expiration_timestamp TIMESTAMP NOT NULL
+);
 SQL;
 
         $this->addSql($sql);
@@ -70,6 +76,7 @@ SQL;
         $sql = <<<SQL
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS domain_events;
+DROP TABLE IF EXISTS temporary_access_tokens;
 SQL;
 
         $this->addSql($sql);

@@ -9,10 +9,10 @@ use App\Register\Domain\RegisteredUser;
 class InvalidEmailException extends \InvalidArgumentException
 {
     /**
-     * @param RegisteredUser $user
+     * @param string $user
      */
-    public function __construct(RegisteredUser $user)
+    public function __construct(string $email)
     {
-        parent::__construct($user->email()->value());
+        parent::__construct($email);
     }
 }

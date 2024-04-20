@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Register\Application\JWTTokenService;
 use App\Shared\Domain\Infrastructure\Doctrine\DoctrinePrefixesSearcher;
 use App\Shared\Settings\SettingsInterface;
 use App\Shared\Infrastructure\Persistence\Doctrine\DoctrineEntityManagerFactory;
@@ -53,6 +54,9 @@ return function (ContainerBuilder $containerBuilder) {
             $transport = Transport::fromDsn($settings->get('email')['dsn']);
 
             return new Mailer($transport);
+        },
+        JWTTokenService::class => function (ContainerInterface $c): JWTTokenService {
+            return new JWTTokenService($c->get(SettingsInterface::class));
         },
     ]);
 };

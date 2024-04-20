@@ -22,7 +22,7 @@
         }
     ],
     "require": {
-        "php": "8.1.6",
+        "php": "8.3.3",
         "ext-http": "*",
         "ext-json": "*",
         "davedevelopment/phpmig": "^1.7",
