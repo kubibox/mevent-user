@@ -1,24 +1,27 @@
 <?php
 
 declare(strict_types=1);
+
 namespace App\Register\Domain;
 
-final class RegisteredUser
+use App\Shared\Domain\Aggregate\AggregateRoot;
+
+final class RegisteredUser extends AggregateRoot
 {
     /**
-     * @param RegisterId $id
+     * @param int $id
      * @param RegisterEmail $email
      */
     public function __construct(
-        private readonly RegisterId $id,
+        private readonly int $id,
         private readonly RegisterEmail $email,
     ) {
     }
 
     /**
-     * @return RegisterId
+     * @return int
      */
-    public function id(): RegisterId
+    public function id(): int
     {
         return $this->id;
     }

@@ -13,7 +13,7 @@ final class RegisterEmail extends StringValueObject
      *
      * @return bool
      */
-    public final function isSame(RegisterEmail $other): bool
+    final public function isSame(RegisterEmail $other): bool
     {
         return trim($this->value()) === trim($other->value());
     }

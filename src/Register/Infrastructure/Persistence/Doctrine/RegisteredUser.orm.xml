@@ -8,9 +8,8 @@
         <id name="id" type="integer" column="id">
             <generator strategy="AUTO" />
         </id>
-        <embedded name="email" class="App\Register\Domain\RegisterEmail" use-column-prefix="false" />
-        <embedded name="password" class="App\Register\Domain\RegisterPassword" />
 
+        <embedded name="email" class="App\Register\Domain\RegisterEmail" use-column-prefix="false" />
         <!-- Other fields and mappings here -->
 
     </entity>

@@ -60,7 +60,8 @@ final class DoctrineEntityManagerFactory
             'prefix' => $settings['prefix']
         ], $config);
 
-        return EntityManager::create($connection,
+        return EntityManager::create(
+            $connection,
             self::createConfiguration($contextPrefixes, true)
         );//todo use const
     }

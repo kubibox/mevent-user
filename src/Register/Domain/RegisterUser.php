@@ -2,13 +2,18 @@
 
 namespace App\Register\Domain;
 
+use App\Shared\Domain\Aggregate\AggregateRoot;
 use JetBrains\PhpStorm\Pure;
 
-final class RegisterUser
+final class RegisterUser extends AggregateRoot
 {
+    /**
+     * @param RegisterEmail $email
+     * @param RegisterPassword $password
+     */
     public function __construct(
-        private readonly RegisterEmail $email,
-        private readonly RegisterPassword $password
+        public readonly RegisterEmail $email,
+        public readonly RegisterPassword $password
     ) {
     }
 

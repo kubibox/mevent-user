@@ -4,9 +4,9 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="App\Register\Domain\RegisterEmail">
+    <embeddable name="App\Register\Domain\RegisterEmail">
         <field name="value" type="string" column="email" />
         <!-- Other fields and mappings here -->
 
-    </entity>
+    </embeddable>
 </doctrine-mapping>
