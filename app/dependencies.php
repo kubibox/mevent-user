@@ -6,6 +6,7 @@ use App\Register\Application\JWTTokenService;
 use App\Shared\Domain\Infrastructure\Doctrine\DoctrinePrefixesSearcher;
 use App\Shared\Settings\SettingsInterface;
 use App\Shared\Infrastructure\Persistence\Doctrine\DoctrineEntityManagerFactory;
+use App\TemporaryAccessToken\Domain\TemporaryAccessTokensRepository;
 use DI\ContainerBuilder;
 use Doctrine\ORM\EntityManager;
 use Monolog\Handler\StreamHandler;

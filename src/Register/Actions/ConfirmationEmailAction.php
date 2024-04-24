@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Register\Actions;
 
-use App\Auth\Domain\AuthRepository;
 use App\Register\Application\Email\Confirmation\SendConfirmationEmailCommand;
 use App\Register\Application\Email\Confirmation\SendConfirmationEmailCommandHandler;
 use App\Register\Application\Email\EmailConfirmation;
@@ -14,6 +13,7 @@ use App\Register\Domain\RegisterRepository;
 use App\Register\Handler\Exception\EmailAlreadyExistedException;
 use App\Register\Handler\Exception\InvalidEmailException;
 use App\Shared\Actions\Action;
+use App\TemporaryAccessToken\Infrastructure\Persistence\DoctrineTemporaryAccessTokensRepository;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -22,7 +22,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 
-class ConfirmationEmailAction extends Action
+final class ConfirmationEmailAction extends Action
 {
     /**
      * @param LoggerInterface $logger
@@ -62,7 +62,8 @@ class ConfirmationEmailAction extends Action
             new EmailConfirmation(
                 $this->repository,
                 $this->container->get(MailerInterface::class),
-                $this->container->get(JWTTokenService::class)
+                $this->container->get(JWTTokenService::class),
+                $this->container->get(DoctrineTemporaryAccessTokensRepository::class)
             ),
         );
 

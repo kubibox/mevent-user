@@ -27,6 +27,7 @@ final class DoctrineEntityManagerFactory
     private static array $sharedPrefixes = [
         __DIR__ . '/../../../Shared/Infrastructure/Persistence/Mappings' => 'App\Shared\Domain',
         __DIR__ . '/../../../../Register/Infrastructure/Persistence/Doctrine' => 'App\Register\Domain',
+        __DIR__ . '/../../../../Token/Infrastructure/Persistence/Doctrine' => 'App\Token\Domain',
         //todo use auto parser for it
         //todo use setting
     ];

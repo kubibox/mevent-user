@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Register\Application;
 
+use App\RSA\Domain\RSAPrivate;
+use App\RSA\Domain\RSAPublic;
 use App\Shared\Settings\SettingsInterface;
-use App\Token\Domain\RSAPrivate;
-use App\Token\Domain\RSAPublic;
 use App\Token\Domain\Token;
 
 class JWTTokenService

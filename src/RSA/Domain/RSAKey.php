@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Token\Shared\Domain;
+namespace App\RSA\Domain;
 
-use App\Token\Handlers\Exceptions\FileNotFoundException;
+use App\RSA\Handlers\Exceptions\FileNotFoundException;
 
 abstract class RSAKey
 {

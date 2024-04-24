@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Shared\Domain\Infrastructure\Doctrine;
 
+use function Lambdish\Phunctional\filter;
+use function Lambdish\Phunctional\map;
+use function Lambdish\Phunctional\reindex;
+
 final class DoctrinePrefixesSearcher
 {
-    private const string MAPPINGS_PATH = 'Infrastructure/Persistence/Doctrine';
+    private const string MAPPINGS_PATH = 'Persistence/Doctrine';
 
     /**
      * @param string $path
@@ -17,14 +21,9 @@ final class DoctrinePrefixesSearcher
     public static function inPath(string $path, string $baseNamespace): array
     {
         $possibleMappingDirectories = self::possibleMappingPaths($path);
+        $mappingDirectories = filter(self::isExistingMappingPath(), $possibleMappingDirectories);
 
-        $mappingDirectories = array_filter(
-            $possibleMappingDirectories,
-            self::isExistingMappingPath(),
-            ARRAY_FILTER_USE_KEY
-        );
-
-        return array_flip(array_values(self::reindexDir($baseNamespace, $mappingDirectories)));
+        return array_flip(reindex(self::namespaceFormatter($baseNamespace), $mappingDirectories));
     }
 
     /**
@@ -34,10 +33,10 @@ final class DoctrinePrefixesSearcher
      */
     private static function modulesInPath(string $path): array
     {
-        return array_values(array_filter(
-            scandir($path),
-            static fn(string $possibleModule) => !in_array($possibleModule, ['.', '..'], true)
-        ));
+        return filter(
+            static fn (string $possibleModule): bool => !in_array($possibleModule, ['.', '..'], true),
+            scandir($path)
+        );
     }
 
     /**
@@ -47,8 +46,8 @@ final class DoctrinePrefixesSearcher
      */
     private static function possibleMappingPaths(string $path): array
     {
-        return array_map(
-            static function (string $module) use ($path) {
+        return map(
+            static function (mixed $_unused, string $module) use ($path) {
                 $mappingsPath = self::MAPPINGS_PATH;
 
                 return realpath("$path/$module/$mappingsPath");
@@ -62,20 +61,16 @@ final class DoctrinePrefixesSearcher
      */
     private static function isExistingMappingPath(): callable
     {
-        return static fn(string $path) => !empty($path);
+        return static fn (string $path): bool => !empty($path);
     }
 
     /**
-     * @param string $path
-     * @param array $additional
+     * @param string $baseNamespace
      *
-     * @return array
+     * @return callable
      */
-    private static function reindexDir(string $path, array $additional): array
+    private static function namespaceFormatter(string $baseNamespace): callable
     {
-        return array_map(
-            static fn(string $dir): string => "$path\\$dir\Domain",
-            array_keys($additional)
-        );
+        return static fn (string $path): string => "$baseNamespace\\Domain"; //todo check, possible error
     }
 }

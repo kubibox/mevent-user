@@ -19,7 +19,6 @@ use Doctrine\ORM\OptimisticLockException;
 
 class DoctrineRegisterRepository extends DoctrineRepository implements RegisterRepository
 {
-
     /**
      * @param RegisterEmail $email
      *

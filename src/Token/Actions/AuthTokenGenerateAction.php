@@ -6,11 +6,15 @@ namespace App\Token\Actions;
 
 use App\Shared\Actions\Action;
 use App\Shared\Settings\SettingsInterface;
-use App\Token\Domain\RSAPrivate;
-use App\Token\Domain\RSAPublic;
+use App\Token\Application\Generate\TokenGenerate;
+use App\Token\Application\Generate\TokenGenerateArguments;
+use App\Token\Application\Generate\TokenGenerator;
 use App\Token\Domain\Token;
+use Exception;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
+use App\RSA\Domain\RSAPrivate;
+use App\RSA\Domain\RSAPublic;
 
 final class AuthTokenGenerateAction extends Action
 {
@@ -26,24 +30,22 @@ final class AuthTokenGenerateAction extends Action
 
     /**
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
     protected function action(): Response
     {
         $this->logger->info('Generate a new token for auth');
 
-        $token = new Token(
-            new RSAPublic($this->settings),
-            new RSAPrivate($this->settings),
-            $this->settings->get('app_name'),
-            $this->settings->get('app_name'),
-        );
+        $arguments = new TokenGenerateArguments(3600, 'test', $this->settings->get('app_name'), [
+            'test'
+        ]);
+
+        $generate = new TokenGenerate(new TokenGenerator(new RSAPublic($this->settings)));
+
+        $token = $generate->generate($arguments);
 
         return $this->respondWithData([
-            'toke' => $token->generate(36000, [
-                'name' => 'test',
-                'email' => 'test',
-            ])->toString()
+            'token' => $token->value(),
         ]);
     }
 }

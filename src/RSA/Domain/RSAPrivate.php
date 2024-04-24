@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Token\Domain;
+namespace App\RSA\Domain;
 
 use App\Shared\Settings\SettingsInterface;
-use App\Token\Shared\Domain\RSAKey;
 
-final class RSAPublic extends RSAKey
+final class RSAPrivate extends RSAKey
 {
     /**
      * @param SettingsInterface $settings
@@ -16,7 +15,7 @@ final class RSAPublic extends RSAKey
     {
         parent::__construct(
             $settings->get('root_path') . '/rsa',
-            $settings->get('rsa')['public']
+            $settings->get('rsa')['private']
         );
     }
 }

@@ -9,6 +9,7 @@ use App\Register\Domain\RegisterEmail;
 use App\Register\Domain\RegisterRepository;
 use App\Register\Handler\Exception\EmailAlreadyExistedException;
 use App\Register\Handler\Exception\InvalidEmailException;
+use App\TemporaryAccessToken\Domain\TemporaryAccessTokensRepository;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -19,11 +20,13 @@ readonly class EmailConfirmation
      * @param RegisterRepository $repository
      * @param MailerInterface $mailer
      * @param JWTTokenService $JWTTokenService
+     * @param TemporaryAccessTokensRepository $accessTokensRepository
      */
     public function __construct(
         private RegisterRepository $repository,
         private MailerInterface $mailer,
         private JWTTokenService $JWTTokenService,
+        private TemporaryAccessTokensRepository $accessTokensRepository,
     ) {
     }
 
@@ -43,12 +46,24 @@ readonly class EmailConfirmation
             throw new EmailAlreadyExistedException($email->value());
         }
 
-        $token = $this->JWTTokenService //todo make archicture fix
+        $this->send($email, $this->token($email));
+    }
+
+    /**
+     * @param RegisterEmail $email
+     *
+     * @return string
+     * @throws \Exception
+     */
+    private function token(RegisterEmail $email): string
+    {
+        $token = $this->JWTTokenService
             ->getTokenForEmailConfirm($email->value())
             ->generate(36000, ['email' => $email->value()])
             ->toString();
 
-        $this->send($email, $token);
+        $this->accessTokensRepository->save(new TemporaryAccessToken());
+        return $token;
     }
 
     /**

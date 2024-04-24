@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Token\Handlers\Exceptions;
+namespace App\RSA\Handlers\Exceptions;
 
 use InvalidArgumentException;
 
